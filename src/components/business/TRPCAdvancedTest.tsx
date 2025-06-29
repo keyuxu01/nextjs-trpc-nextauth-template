@@ -1,4 +1,4 @@
-"use client";
+"use client"; // 🚨 必需！以下所有功能都需要客户端
 
 import { useTRPC, useTRPCClient } from "@/utils/trpc/hooks";
 import { useQuery } from "@tanstack/react-query";
@@ -7,21 +7,24 @@ import { useState } from "react";
 export function TRPCAdvancedTest() {
   const [message, setMessage] = useState<string>("");
 
+  // ❌ Server Component 中不可用：React hooks
   // 方式1: 使用 useTRPC hook（正确的 API 使用方式）
-  const trpc = useTRPC();
+  const trpc = useTRPC(); // ❌ Server Component 不支持
 
   // 方式2: 使用 useTRPCClient 获取原始客户端
-  const trpcClient = useTRPCClient();
+  const trpcClient = useTRPCClient(); // ❌ Server Component 不支持
 
   // 方式3: 使用 useTRPC + useQuery（推荐方式）
+  // ❌ Server Component 中不可用：useQuery hook
   const {
     data: trpcData,
     isLoading: trpcLoading,
     error: trpcError,
     refetch: trpcRefetch,
-  } = useQuery(trpc.hello.queryOptions());
+  } = useQuery(trpc.hello.queryOptions()); // ❌ Server Component 不支持
 
   // 方式4: 传统方式 - 手动使用 React Query + tRPC 客户端
+  // ❌ Server Component 中不可用：useQuery hook
   const {
     data: manualData,
     isLoading: manualLoading,
@@ -30,8 +33,9 @@ export function TRPCAdvancedTest() {
   } = useQuery({
     queryKey: ["hello-manual"],
     queryFn: () => trpcClient.hello.query(),
-  });
+  }); // ❌ Server Component 不支持
 
+  // ❌ Server Component 中不可用：事件处理器中的异步调用
   // 手动调用示例（比如在按钮点击时）
   const handleManualCall = async () => {
     try {
@@ -104,6 +108,15 @@ export function TRPCAdvancedTest() {
         <p>
           <strong>手动调用:</strong> <code>trpcClient.hello.query()</code>
         </p>
+        <div className="mt-2 p-2 bg-yellow-50 border-l-4 border-yellow-400">
+          <p className="font-semibold text-yellow-800">
+            ⚠️ Server Component 注意事项:
+          </p>
+          <p className="text-yellow-700 text-xs">
+            以上所有方法都需要 <code>&quot;use client&quot;</code> 指令。 在
+            Server Component 中请使用 <code>appRouter.createCaller()</code>
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -53,9 +53,12 @@ const t = initTRPC.context<TRPCContext>().create({
 
 /**
  * Export reusable router and procedure helpers
+ * Also export createCallerFactory for the new caller pattern
  */
 export const router = t.router;
 export const publicProcedure = t.procedure;
+export const createCallerFactory = t.createCallerFactory;
+
 
 /**
  * Authentication middleware
