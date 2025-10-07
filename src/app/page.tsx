@@ -1,4 +1,9 @@
-import { TRPCAdvancedTest, TRPCTest, UserSession } from "@/components/business";
+import {
+  ServerComponentExample,
+  TRPCAdvancedTest,
+  TRPCTest,
+  UserSession,
+} from "@/components/business";
 import { Button } from "@/components/ui";
 import { OAUTH_SIGN_IN_URL } from "@/constants/path";
 import { getServerSession } from "@/server/auth";
@@ -20,6 +25,7 @@ export default async function Home() {
       <UserSession />
       <TRPCTest />
       <TRPCAdvancedTest />
+      <ServerComponentExample />
       <Button>click</Button>
     </div>
   );

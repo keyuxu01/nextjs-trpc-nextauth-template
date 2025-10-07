@@ -9,8 +9,8 @@ export { appRouter, createTRPCContext } from "./root";
 export type { AppRouter } from "./root";
 
 // Export core tRPC utilities (if needed elsewhere)
-export { createCallerFactory, protectedProcedure, publicProcedure, router } from "./trpc";
-export type { TRPCContext } from "./trpc";
+export { createCallerFactory, protectedProcedure, publicProcedure, router } from "./init";
+export type { TRPCContext } from "./init";
 
 // Export individual routers (if needed for testing or separate usage)
 export { generalRouter } from "./routers/general";

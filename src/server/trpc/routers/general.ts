@@ -5,11 +5,11 @@
  */
 
 import { z } from "zod";
-import { protectedProcedure, publicProcedure, router } from "../trpc";
+import { protectedProcedure, publicProcedure, router } from "../init";
 
-export const generalRouter = router({
+const generalRouter = router({
   /**
-   * Hello endpoint (protected)
+   * @description Hello endpoint (protected)
    */
   hello: protectedProcedure.query(async ({ ctx }) => {
     const { session } = ctx;
@@ -20,7 +20,7 @@ export const generalRouter = router({
   }),
 
   /**
-   * Public health check
+   * @description Public health check
    */
   health: publicProcedure.query(() => {
     return {
@@ -31,7 +31,7 @@ export const generalRouter = router({
   }),
 
   /**
-   * Echo endpoint for testing
+   * @description Echo endpoint for testing
    */
   echo: protectedProcedure
     .input(
@@ -47,3 +47,5 @@ export const generalRouter = router({
       };
     }),
 });
+
+export { generalRouter };

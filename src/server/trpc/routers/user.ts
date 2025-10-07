@@ -5,9 +5,9 @@
  */
 
 import { z } from "zod";
-import { protectedProcedure, router } from "../trpc";
+import { protectedProcedure, router } from "../init";
 
-export const userRouter = router({
+const userRouter = router({
   /**
    * Get current user profile
    */
@@ -57,3 +57,5 @@ export const userRouter = router({
       };
     }),
 });
+
+export { userRouter };

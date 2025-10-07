@@ -3,17 +3,17 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { users } from "./schema";
 
 // Create a Zod schema for inserting users
-const createUserSchema = createInsertSchema(users, {
+const insertUserSchema = createInsertSchema(users, {
   // Specify the fields that are required for insertion
   // email need meet the email format
-  name: (schema) => schema.email().optional(),
+  email: (schema) => schema.email().optional(),
 });
 
 // update the user schema
-const updateUserEmailSchema = createUserSchema.pick({
+const updateUserEmailSchema = insertUserSchema.pick({
   email: true,
 });
 
 const queryUserSchema = createSelectSchema(users);
 
-export { createUserSchema, queryUserSchema, updateUserEmailSchema };
+export { insertUserSchema, queryUserSchema, updateUserEmailSchema };

@@ -4,19 +4,23 @@
  * Combines all sub-routers into the main application router
  */
 
+import { router } from "./init";
 import { generalRouter } from "./routers/general";
 import { userRouter } from "./routers/user";
-import { router } from "./trpc";
 
 /**
  * Main application router
  * Add new routers here as the application grows
  */
 export const appRouter = router({
-  // General endpoints
+  /**
+   * @description 通用路由
+   */
   general: generalRouter,
 
-  // User-related endpoints
+  /**
+   * @description 用户相关路由
+   */
   user: userRouter,
 
   // Backward compatibility - keep the old hello endpoint at root level
@@ -27,4 +31,4 @@ export const appRouter = router({
 export type AppRouter = typeof appRouter;
 
 // Re-export context creation for API routes
-export { createTRPCContext } from "./trpc";
+export { createTRPCContext } from "./init";

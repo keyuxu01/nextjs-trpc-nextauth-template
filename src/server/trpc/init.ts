@@ -15,7 +15,7 @@ import type { Session } from "next-auth";
 /**
  * tRPC Context Interface
  */
-export interface TRPCContext {
+ interface TRPCContext {
   session: Session;
 }
 
@@ -23,7 +23,7 @@ export interface TRPCContext {
  * Create tRPC context for each request
  * This runs for every tRPC request and provides the context
  */
-export const createTRPCContext = async (): Promise<TRPCContext> => {
+const createTRPCContext = async (): Promise<TRPCContext> => {
   const session = await getServerSession();
 
   console.log("Session in tRPC context:", session);
@@ -55,9 +55,22 @@ const t = initTRPC.context<TRPCContext>().create({
  * Export reusable router and procedure helpers
  * Also export createCallerFactory for the new caller pattern
  */
-export const router = t.router;
-export const publicProcedure = t.procedure;
-export const createCallerFactory = t.createCallerFactory;
+/**
+ * @description router 就是一个「procedure 的集合」，类似于传统框架里的「路由分组」或者「模块化 API」。
+ */
+const router = t.router;
+/**
+ * @description procedure 是 服务端定义的一个可调用函数。
+ */
+const publicProcedure = t.procedure;
+
+/**
+ * @description 用于在 Server Component 中调用 tRPC 服务端 procedure。
+ * createCallerFactory 用来生成一个 caller，caller 是客户端调用服务端 procedure 的「门面」。
+ * 基于 router 生成一个调用工具, 这个工具可以调用 router 中的所有 procedure。
+ * 用于在 Server Component 中调用 tRPC 服务端 procedure。
+ */
+const createCallerFactory = t.createCallerFactory;
 
 
 /**
@@ -90,6 +103,12 @@ const isAuthenticated = t.middleware(async ({ ctx, next }) => {
 });
 
 /**
- * Protected procedure that requires authentication
+ * @description 使用 isAuthenticated 中间件来保护 procedure。
  */
-export const protectedProcedure = publicProcedure.use(isAuthenticated);
+const protectedProcedure = publicProcedure.use(isAuthenticated);
+
+
+export { createCallerFactory, createTRPCContext, protectedProcedure, publicProcedure, router, type TRPCContext };
+
+
+
